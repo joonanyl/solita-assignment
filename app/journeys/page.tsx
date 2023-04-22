@@ -35,7 +35,7 @@ export default function JourneysPage() {
   const { data, error, isLoading } = useSWR<QueryResult>(
     `/api/journeys?page=${page}`,
     fetcher,
-    { revalidateOnFocus: false, revalidateIfStale: false } // Prevents revalidation once the data is cached
+    { revalidateOnFocus: false, revalidateIfStale: false } // Prevents revalidation once the data is cached (to avoid fetching for unchanged data)
   )
 
   const handleSort = (column: string) => {
