@@ -5,6 +5,8 @@ import useSWR from "swr"
 
 import { Button } from "@/components/ui/button"
 
+import SearchBar from "../journeys/SearchBar"
+
 type QueryResult = {
   stations: Station[]
   totalPages: number
@@ -14,6 +16,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export default function StationsPage() {
   const [page, setPage] = useState(1)
+  const [search, setSearch] = useState("")
 
   const { data, error, isLoading } = useSWR<QueryResult>(
     `/api/stations?page=${page}`,
@@ -28,12 +31,20 @@ export default function StationsPage() {
   if (isLoading) return <div>Loading...</div>
 
   if (data) {
-    console.log(data)
-
     let { stations, totalPages } = data
+
+    if (search) {
+      stations = stations.filter((station) => {
+        return (
+          station.name.toLowerCase().includes(search.toLowerCase()) ||
+          station.osoite.toLowerCase().includes(search.toLowerCase())
+        )
+      })
+    }
 
     return (
       <div className="mx-12 my-6">
+        <SearchBar value={search} setValue={setSearch} />
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-2">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
