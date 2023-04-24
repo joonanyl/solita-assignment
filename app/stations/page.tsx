@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import useSWR from "swr"
 
 import { Button } from "@/components/ui/button"
@@ -62,8 +63,10 @@ export default function StationsPage() {
                 key={station._id}
               >
                 <td className="px-6 py-4">{station.id}</td>
-                <td className="px-6 py-4">{station.name}</td>
-                <td className="px-6 py-4">{station.adress}</td>
+                <td className="px-6 py-4 hover:underline">
+                  <Link href={`/station/${station.id}`}>{station.name}</Link>
+                </td>
+                <td className="px-6 py-4">{station.osoite}</td>
                 <td className="px-6 py-4">{station.kaupunki}</td>
                 <td className="px-6 py-4">{station.kapasiteet}</td>
               </tr>

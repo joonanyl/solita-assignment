@@ -8,11 +8,14 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     try {
-      const { page } = Array.isArray(req.query.page)
-        ? req.query.page[0]
-        : req.query
+      const { page } =
+        typeof req.query === "object" &&
+        req.query !== null &&
+        typeof req.query.page === "string"
+          ? req.query.page
+          : "1"
 
-      const resultsPerPage = 20
+      const RESULTSPERPAGE = 20
 
       const client = await clientPromise
       const db = client.db("solita")
@@ -20,12 +23,12 @@ export default async function handler(
       const journeys = await db
         .collection("journeys")
         .find({})
-        .skip((parseInt(page) - 1) * resultsPerPage)
-        .limit(resultsPerPage)
+        .skip((parseInt(page) - 1) * RESULTSPERPAGE)
+        .limit(RESULTSPERPAGE)
         .toArray()
 
       const documentCount = await db.collection("journeys").countDocuments()
-      const totalPages = Math.ceil(documentCount / resultsPerPage)
+      const totalPages = Math.ceil(documentCount / RESULTSPERPAGE)
 
       res.status(200).json({ journeys, totalPages })
     } catch (error) {
