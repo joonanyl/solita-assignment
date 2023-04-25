@@ -4,6 +4,8 @@ import useSWR from "swr"
 
 import { Journey } from "@/app/types/journey"
 
+import Map from "./Map"
+
 type URL = {
   params: {
     slug: string
@@ -32,8 +34,6 @@ export default function SingleStationPage(url: URL) {
   if (isLoading) return <div>Loading...</div>
 
   if (data) {
-    console.log(data)
-
     return (
       <div className="mx-12 my-6">
         <h1 className="font-bold text-xl">{data.station?.name}</h1>
@@ -46,6 +46,7 @@ export default function SingleStationPage(url: URL) {
           Amount of journeys ending to the station:{" "}
           {data.endingJourneys?.length}
         </p>
+        <Map lat={data.station?.y} lng={data.station?.x} />
       </div>
     )
   }
