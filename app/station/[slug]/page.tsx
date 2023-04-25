@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import useSWR from "swr"
 
 import { Journey } from "@/app/types/journey"
@@ -27,9 +28,33 @@ const averageDistance = (journeys: Journey[]) => {
   )
 }
 
-export default function SingleStationPage(url: URL) {
+const getPopularStations = (
+  journeys: Journey[],
+  stationNameProp: "returnStationName" | "departureStationName",
+  stationIdProp: "returnStationId" | "departureStationId"
+) => {
+  const counts = journeys.reduce((acc, journey) => {
+    const stationName = journey[stationNameProp]
+    acc[stationName] = acc[stationName] ? acc[stationName] + 1 : 1 // If name exists in array, +1 its count otherwise add it there with count of 1
+    return acc
+  }, {} as { [stationName: string]: number })
+
+  const popularStations = Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([stationName, count]) => ({
+      name: stationName,
+      id: journeys.find(
+        (journey) => journey[stationNameProp] === stationName
+      )?.[stationIdProp],
+    }))
+
+  return popularStations
+}
+
+export default function SingleStationPage({ params: { slug } }: URL) {
   const { data, error, isLoading } = useSWR<QueryParams>(
-    `/api/stations/${url.params.slug}`,
+    `/api/stations/${slug}`,
     fetcher,
     { revalidateOnFocus: false, revalidateIfStale: false }
   )
@@ -42,8 +67,20 @@ export default function SingleStationPage(url: URL) {
   if (data) {
     const { station, startingJourneys, endingJourneys } = data
 
+    const favouriteReturnStations = getPopularStations(
+      startingJourneys || [],
+      "returnStationName",
+      "returnStationId"
+    )
+    const favouriteDepartureStations = getPopularStations(
+      endingJourneys || [],
+      "departureStationName",
+      "departureStationId"
+    )
+
     return (
-      <div className="mx-12 my-6">
+      <div className="mx-12 my-6 flex flex-col justify-center text-center">
+        <Map lat={station?.y} lng={station?.x} />
         <h1 className="font-bold text-xl">{station?.name}</h1>
         <p className="font-bold text-lg">{station?.osoite}</p>
         <p className="font-bold text-lg">
@@ -62,7 +99,24 @@ export default function SingleStationPage(url: URL) {
           {(averageDistance(endingJourneys) / 1000).toFixed(2)}
           km
         </p>
-        <Map lat={station?.y} lng={station?.x} />
+        <ul>
+          Top 5 most popular departure stations for journeys ending to this
+          station:
+          {favouriteDepartureStations.map((station) => (
+            <Link href={`/station/${station.id}`} key={station.id}>
+              <li className="hover:underline">{station.name}</li>
+            </Link>
+          ))}
+        </ul>
+        <ul>
+          Top 5 most popular return stations for journeys starting from the
+          station:
+          {favouriteReturnStations.map((station) => (
+            <Link href={`/station/${station.id}`} key={station.id}>
+              <li className="hover:underline">{station.name}</li>
+            </Link>
+          ))}
+        </ul>
       </div>
     )
   }

@@ -1,6 +1,6 @@
 export type Journey = {
   _id: string
-  coveredDistance: 4318
+  coveredDistance: number
   departure: string
   departureStationId: number
   departureStationName: string

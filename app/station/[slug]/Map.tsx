@@ -8,8 +8,8 @@ type MapParams = {
 }
 
 const containerStyle = {
-  width: "450px",
-  height: "400px",
+  width: "400px",
+  height: "350px",
 }
 
 export default function StationMap({ lat, lng }: MapParams) {
@@ -22,7 +22,7 @@ export default function StationMap({ lat, lng }: MapParams) {
   if (loadError) return <p>Error loading the map</p>
 
   return (
-    <>
+    <div className="flex justify-center my-4">
       {isLoaded && (
         <GoogleMap
           mapContainerStyle={containerStyle}
@@ -32,6 +32,6 @@ export default function StationMap({ lat, lng }: MapParams) {
           <Marker position={stationCoordinates} />
         </GoogleMap>
       )}
-    </>
+    </div>
   )
 }
