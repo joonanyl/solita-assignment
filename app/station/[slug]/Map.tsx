@@ -1,29 +1,37 @@
 "use client"
 
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api"
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api"
 
 type MapParams = {
   lat: number
   lng: number
 }
 
+const containerStyle = {
+  width: "450px",
+  height: "400px",
+}
+
 export default function StationMap({ lat, lng }: MapParams) {
-  const containerStyle = {
-    width: "450px",
-    height: "400px",
-  }
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY || "",
+  })
 
   const stationCoordinates = { lat, lng }
 
+  if (loadError) return <p>Error loading the map</p>
+
   return (
-    <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY || ""}>
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={stationCoordinates}
-        zoom={15}
-      >
-        <Marker position={stationCoordinates} />
-      </GoogleMap>
-    </LoadScript>
+    <>
+      {isLoaded && (
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={stationCoordinates}
+          zoom={15}
+        >
+          <Marker position={stationCoordinates} />
+        </GoogleMap>
+      )}
+    </>
   )
 }

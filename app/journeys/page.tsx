@@ -141,7 +141,9 @@ export default function JourneysPage() {
               >
                 <td className="px-6 py-4">{journey.departureStationName}</td>
                 <td className="px-6 py-4">{journey.returnStationName}</td>
-                <td className="px-6 py-4">{journey.coveredDistance / 1000}</td>
+                <td className="px-6 py-4">
+                  {(journey.coveredDistance / 1000).toFixed(2)}
+                </td>
                 <td className="px-6 py-4">
                   {Math.round(journey.duration / 60)}
                 </td>

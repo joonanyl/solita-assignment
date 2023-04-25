@@ -20,6 +20,13 @@ type QueryParams = {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
+const averageDistance = (journeys: Journey[]) => {
+  const distances = journeys.map((journey) => journey.coveredDistance)
+  return (
+    distances.reduce((acc, distance) => acc + distance, 0) / distances.length
+  )
+}
+
 export default function SingleStationPage(url: URL) {
   const { data, error, isLoading } = useSWR<QueryParams>(
     `/api/stations/${url.params.slug}`,
@@ -27,26 +34,35 @@ export default function SingleStationPage(url: URL) {
     { revalidateOnFocus: false, revalidateIfStale: false }
   )
 
-  if (error) {
-    console.log(error.message)
+  if (error)
     return <div>An error has occurred while trying to load journeys</div>
-  }
+
   if (isLoading) return <div>Loading...</div>
 
   if (data) {
+    const { station, startingJourneys, endingJourneys } = data
+
     return (
       <div className="mx-12 my-6">
-        <h1 className="font-bold text-xl">{data.station?.name}</h1>
-        <p className="font-bold text-lg">{data.station?.osoite}</p>
+        <h1 className="font-bold text-xl">{station?.name}</h1>
+        <p className="font-bold text-lg">{station?.osoite}</p>
         <p className="font-bold text-lg">
-          Amount of journeys starting from the station:{" "}
-          {data.startingJourneys?.length}
+          {startingJourneys?.length} journeys starting from station
         </p>
         <p className="font-bold text-lg">
-          Amount of journeys ending to the station:{" "}
-          {data.endingJourneys?.length}
+          {endingJourneys?.length} journeys ending to station
         </p>
-        <Map lat={data.station?.y} lng={data.station?.x} />
+        <p>
+          The average distance of a journey starting from the station:{" "}
+          {(averageDistance(startingJourneys) / 1000).toFixed(2)}
+          km
+        </p>
+        <p>
+          The average distance of a journey ending to the station:{" "}
+          {(averageDistance(endingJourneys) / 1000).toFixed(2)}
+          km
+        </p>
+        <Map lat={station?.y} lng={station?.x} />
       </div>
     )
   }
