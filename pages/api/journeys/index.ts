@@ -2,18 +2,21 @@ import { NextApiRequest, NextApiResponse } from "next"
 
 import clientPromise from "@/lib/mongodb"
 
+interface QueryStrings {
+  page?: string
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
     try {
-      const { page } =
-        typeof req.query === "object" &&
-        req.query !== null &&
-        typeof req.query.page === "string"
-          ? req.query.page
-          : "1"
+      const { page } = req.query as QueryStrings
+
+      if (!page) {
+        return res.status(400).json({ message: "Page query string missing" })
+      }
 
       const RESULTSPERPAGE = 20
 

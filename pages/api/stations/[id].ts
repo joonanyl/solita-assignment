@@ -2,17 +2,39 @@ import { NextApiRequest, NextApiResponse } from "next"
 
 import clientPromise from "@/lib/mongodb"
 
+interface QueryStrings {
+  id?: string
+  month?: string
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
     try {
-      const id = Array.isArray(req.query.id) ? req.query.id[0] : req.query.id
+      const { id, month } = req.query as QueryStrings
+
+      console.log(month)
 
       if (id) {
         const client = await clientPromise
         const db = client.db("solita")
+
+        let query: { [key: string]: any } = {
+          departureStationId: parseInt(id),
+        }
+
+        if (month) {
+          if (month !== "null") {
+            query.departure = {
+              $gt: `2021-${month}-01`,
+              $lt: `2021-0${parseInt(month) + 1}-01`,
+            }
+          }
+        }
+
+        console.log(query)
 
         const station = await db
           .collection("stations")
@@ -20,12 +42,25 @@ export default async function handler(
 
         const startingJourneys = await db
           .collection("journeys")
-          .find({ departureStationId: parseInt(id) })
+          .find(query)
           .toArray()
+
+        query = {
+          returnStationId: parseInt(id), // Change the query object for endingJourneys
+        }
+
+        if (month) {
+          if (month !== "null") {
+            query.return = {
+              $gt: `2021-${month}-01`,
+              $lt: `2021-0${parseInt(month) + 1}-01`,
+            }
+          }
+        }
 
         const endingJourneys = await db
           .collection("journeys")
-          .find({ returnStationId: parseInt(id) })
+          .find(query)
           .toArray()
 
         res.status(200).json({ station, startingJourneys, endingJourneys })

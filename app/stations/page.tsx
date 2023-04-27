@@ -67,7 +67,9 @@ export default function StationsPage() {
                   <Link href={`/station/${station.id}`}>{station.name}</Link>
                 </td>
                 <td className="px-6 py-4">{station.osoite}</td>
-                <td className="px-6 py-4">{station.kaupunki}</td>
+                <td className="px-6 py-4">
+                  {station.kaupunki ? station.kaupunki : "Helsinki"}
+                </td>
                 <td className="px-6 py-4">{station.kapasiteet}</td>
               </tr>
             ))}

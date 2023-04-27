@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import useSWR from "swr"
 
@@ -52,11 +53,19 @@ const getPopularStations = (
   return popularStations
 }
 
+const monthCodes = {
+  "05": "May",
+  "06": "June",
+  "07": "July",
+}
+
 export default function SingleStationPage({ params: { slug } }: URL) {
+  const [month, setMonth] = useState<string | null>(null)
+
   const { data, error, isLoading } = useSWR<QueryParams>(
-    `/api/stations/${slug}`,
+    [`/api/stations/${slug}?month=${month}`],
     fetcher,
-    { revalidateOnFocus: false, revalidateIfStale: false }
+    { revalidateOnFocus: false }
   )
 
   if (error)
@@ -80,14 +89,50 @@ export default function SingleStationPage({ params: { slug } }: URL) {
 
     return (
       <div className="mx-12 my-6 flex flex-col justify-center text-center">
+        <div className="flex rounded-md shadow-sm justify-center" role="group">
+          <button
+            type="button"
+            className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+            onClick={() => setMonth("05")}
+          >
+            May
+          </button>
+          <button
+            type="button"
+            className={`px-4 py-2 text-sm font-medium text-gray-900 border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white ${
+              month === "06"
+                ? "bg-blue-700 text-white"
+                : "bg-white text-gray-900"
+            }`}
+            onClick={() => setMonth("06")}
+          >
+            June
+          </button>
+          <button
+            type="button"
+            className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+            onClick={() => setMonth("07")}
+          >
+            July
+          </button>
+          <button
+            type="button"
+            className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+            onClick={() => setMonth(null)}
+          >
+            All
+          </button>
+        </div>
         <Map lat={station?.y} lng={station?.x} />
         <h1 className="font-bold text-xl">{station?.name}</h1>
         <p className="font-bold text-lg">{station?.osoite}</p>
         <p className="font-bold text-lg">
-          {startingJourneys?.length} journeys starting from station
+          {startingJourneys?.length} journeys starting from station in{" "}
+          {!month ? "all months" : monthCodes[month]}
         </p>
         <p className="font-bold text-lg">
-          {endingJourneys?.length} journeys ending to station
+          {endingJourneys?.length} journeys ending to station in{" "}
+          {!month ? "all months" : monthCodes[month]}
         </p>
         <p>
           The average distance of a journey starting from the station:{" "}

@@ -2,20 +2,26 @@ import { NextApiRequest, NextApiResponse } from "next"
 
 import clientPromise from "@/lib/mongodb"
 
+interface QueryStrings {
+  page?: string
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
     try {
-      const { page } = Array.isArray(req.query.page)
-        ? req.query.page[0]
-        : req.query
+      const { page } = req.query as QueryStrings
 
       const resultsPerPage = 20
 
       const client = await clientPromise
       const db = client.db("solita")
+
+      if (!page) {
+        return res.status(400).json({ message: "Page query string missing" })
+      }
 
       const stations = await db
         .collection("stations")
