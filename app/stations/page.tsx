@@ -5,8 +5,10 @@ import Link from "next/link"
 import useSWR from "swr"
 
 import { Button } from "@/components/ui/button"
+import Spinner from "@/components/spinner"
 
 import SearchBar from "../journeys/SearchBar"
+import StationsTable from "./StationsTable"
 
 type QueryResult = {
   stations: Station[]
@@ -22,14 +24,14 @@ export default function StationsPage() {
   const { data, error, isLoading } = useSWR<QueryResult>(
     `/api/stations?page=${page}`,
     fetcher,
-    { revalidateOnFocus: false, revalidateIfStale: false } // Prevents revalidation once the data is cached
+    { revalidateOnFocus: false }
   )
 
   if (error) {
     console.log(error.message)
     return <div>An error has occurred while trying to load journeys</div>
   }
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <Spinner />
 
   if (data) {
     let { stations, totalPages } = data
@@ -46,35 +48,7 @@ export default function StationsPage() {
     return (
       <div className="mx-12 my-6">
         <SearchBar value={search} setValue={setSearch} />
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-2">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th className="px-6 py-3 cursor-pointer">id</th>
-              <th className="px-6 py-3 cursor-pointer">Name</th>
-              <th className="px-6 py-3 cursor-pointer">Address</th>
-              <th className="px-6 py-3 cursor-pointer">City</th>
-              <th className="px-6 py-3 cursor-pointer">Bike capacity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {stations?.map((station) => (
-              <tr
-                className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
-                key={station._id}
-              >
-                <td className="px-6 py-4">{station.id}</td>
-                <td className="px-6 py-4 hover:underline">
-                  <Link href={`/station/${station.id}`}>{station.name}</Link>
-                </td>
-                <td className="px-6 py-4">{station.osoite}</td>
-                <td className="px-6 py-4">
-                  {station.kaupunki ? station.kaupunki : "Helsinki"}
-                </td>
-                <td className="px-6 py-4">{station.kapasiteet}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <StationsTable stations={stations} />
         <p className="font-bold text-center mt-4">
           {page} / {totalPages}
         </p>

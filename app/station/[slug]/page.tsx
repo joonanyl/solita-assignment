@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import useSWR from "swr"
 
-import { Journey } from "@/app/types/journey"
+import Spinner from "@/components/spinner"
 
 import Map from "./Map"
 
@@ -71,7 +71,12 @@ export default function SingleStationPage({ params: { slug } }: URL) {
   if (error)
     return <div>An error has occurred while trying to load journeys</div>
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading)
+    return (
+      <div>
+        <Spinner />
+      </div>
+    )
 
   if (data) {
     const { station, startingJourneys, endingJourneys } = data
