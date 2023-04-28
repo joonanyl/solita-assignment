@@ -62,7 +62,7 @@ export default function JourneysPage() {
     }
 
     return (
-      <div className="mx-12 my-6">
+      <div className="xl:mx-28 mx-12 my-6">
         <SearchBar value={search} setValue={setSearch} />
         {isLoading ? <p>loading...</p> : <JourneysTable journeys={journeys} />}
         <p className="font-bold text-center mt-4">

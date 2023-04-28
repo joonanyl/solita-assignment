@@ -46,8 +46,13 @@ export default function StationsPage() {
     }
 
     return (
-      <div className="mx-12 my-6">
-        <SearchBar value={search} setValue={setSearch} />
+      <div className="xl:mx-28 mx-12 my-6">
+        <div className="flex justify-between">
+          <SearchBar value={search} setValue={setSearch} />
+          <Link href="/stations/create">
+            <Button>Create new</Button>
+          </Link>
+        </div>
         <StationsTable stations={stations} />
         <p className="font-bold text-center mt-4">
           {page} / {totalPages}

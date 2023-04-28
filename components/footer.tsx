@@ -2,7 +2,7 @@ import { Icons } from "./icons"
 
 export default function Footer() {
   return (
-    <footer className="py-10 flex flex-col justify-center border-t border-gray-200 dark:border-gray-700">
+    <footer className="py-10 mt-6 flex flex-col justify-center border-t border-gray-200 dark:border-gray-700">
       <div>
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
           © 2023 Joona Nylander

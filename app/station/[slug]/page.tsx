@@ -93,7 +93,7 @@ export default function SingleStationPage({ params: { slug } }: URL) {
     )
 
     return (
-      <div className="mx-12 my-6 flex flex-col justify-center text-center">
+      <div className="mx-12 my-6 flex flex-col justify-center">
         <div className="flex rounded-md shadow-sm justify-center" role="group">
           <button
             type="button"
@@ -128,45 +128,53 @@ export default function SingleStationPage({ params: { slug } }: URL) {
             All
           </button>
         </div>
-        <Map lat={station?.y} lng={station?.x} />
-        <h1 className="font-bold text-xl">{station?.name}</h1>
-        <p className="font-bold text-lg">{station?.osoite}</p>
-        <p className="font-bold text-lg">
-          {startingJourneys?.length} journeys starting from station in{" "}
-          {!month ? "all months" : monthCodes[month]}
-        </p>
-        <p className="font-bold text-lg">
-          {endingJourneys?.length} journeys ending to station in{" "}
-          {!month ? "all months" : monthCodes[month]}
-        </p>
-        <p>
-          The average distance of a journey starting from the station:{" "}
-          {(averageDistance(startingJourneys) / 1000).toFixed(2)}
-          km
-        </p>
-        <p>
-          The average distance of a journey ending to the station:{" "}
-          {(averageDistance(endingJourneys) / 1000).toFixed(2)}
-          km
-        </p>
-        <ul>
-          Top 5 most popular departure stations for journeys ending to this
-          station:
-          {favouriteDepartureStations.map((station) => (
-            <Link href={`/station/${station.id}`} key={station.id}>
-              <li className="hover:underline">{station.name}</li>
-            </Link>
-          ))}
-        </ul>
-        <ul>
-          Top 5 most popular return stations for journeys starting from the
-          station:
-          {favouriteReturnStations.map((station) => (
-            <Link href={`/station/${station.id}`} key={station.id}>
-              <li className="hover:underline">{station.name}</li>
-            </Link>
-          ))}
-        </ul>
+        <div className="mt-4 m-auto flex flex-col align-top">
+          <Map lat={station?.y} lng={station?.x} />
+          <div className="ml-4 mt-6 space-y-2">
+            <h1 className="xl:mx-1/2 font-bold text-lg md:text-xl">
+              {station?.name}
+            </h1>
+            <p className="mb-3 font-bold text-lg md:text-xl">
+              {station?.osoite}
+            </p>
+            <p className="">
+              {startingJourneys?.length} journeys starting from station in{" "}
+              {!month ? "all months" : monthCodes[month]}
+            </p>
+            <p className="">
+              {endingJourneys?.length} journeys ending to station in{" "}
+              {!month ? "all months" : monthCodes[month]}
+            </p>
+            <p>
+              The average distance of a journey starting from the station:{" "}
+              {(averageDistance(startingJourneys) / 1000).toFixed(2)}
+              km
+            </p>
+            <p>
+              The average distance of a journey ending to the station:{" "}
+              {(averageDistance(endingJourneys) / 1000).toFixed(2)}
+              km
+            </p>
+            <ul>
+              Top 5 most popular departure stations for journeys ending to this
+              station:
+              {favouriteDepartureStations.map((station) => (
+                <Link href={`/station/${station.id}`} key={station.id}>
+                  <li className="hover:underline">{station.name}</li>
+                </Link>
+              ))}
+            </ul>
+            <ul>
+              Top 5 most popular return stations for journeys starting from the
+              station:
+              {favouriteReturnStations.map((station) => (
+                <Link href={`/station/${station.id}`} key={station.id}>
+                  <li className="hover:underline">{station.name}</li>
+                </Link>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     )
   }
