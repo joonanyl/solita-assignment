@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 export default function CreatePage() {
   const [id, setId] = useState("")
@@ -9,6 +9,8 @@ export default function CreatePage() {
   const [address, setAddress] = useState("")
   const [city, setCity] = useState("")
   const [error, setError] = useState("")
+
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -26,9 +28,10 @@ export default function CreatePage() {
     if (!response.ok) {
       const errorData = await response.json()
       setError(errorData)
+      return
     }
 
-    redirect("/stations")
+    router.push("/stations")
   }
 
   return (

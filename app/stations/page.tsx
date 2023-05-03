@@ -57,11 +57,20 @@ export default function StationsPage() {
           {page} / {totalPages}
         </p>
         <div className="my-4 flex justify-center gap-4">
-          <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
+          <Button
+            onClick={() => {
+              setPage(page - 1)
+              setSearch("")
+            }}
+            disabled={page === 1}
+          >
             Prev
           </Button>
           <Button
-            onClick={() => setPage(page + 1)}
+            onClick={() => {
+              setPage(page + 1)
+              setSearch("")
+            }}
             disabled={page === totalPages}
           >
             Next
