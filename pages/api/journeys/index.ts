@@ -35,7 +35,6 @@ export default async function handler(
 
       res.status(200).json({ journeys, totalPages })
     } catch (error) {
-      console.log(error)
       res
         .status(400)
         .json({ message: "An error has occurred while fetching the journeys" })

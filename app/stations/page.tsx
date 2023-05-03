@@ -28,7 +28,6 @@ export default function StationsPage() {
   )
 
   if (error) {
-    console.log(error.message)
     return <div>An error has occurred while trying to load journeys</div>
   }
   if (isLoading) return <Spinner />
@@ -46,7 +45,7 @@ export default function StationsPage() {
     }
 
     return (
-      <div className="xl:mx-28 mx-12 my-6">
+      <div className="mx-12 my-6 xl:mx-28">
         <div className="flex justify-between">
           <SearchBar value={search} setValue={setSearch} />
           <Link href="/stations/create">
@@ -54,10 +53,10 @@ export default function StationsPage() {
           </Link>
         </div>
         <StationsTable stations={stations} />
-        <p className="font-bold text-center mt-4">
+        <p className="mt-4 text-center font-bold">
           {page} / {totalPages}
         </p>
-        <div className="flex gap-4 my-4 justify-center">
+        <div className="my-4 flex justify-center gap-4">
           <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
             Prev
           </Button>

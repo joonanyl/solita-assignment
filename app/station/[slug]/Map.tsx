@@ -22,7 +22,7 @@ export default function StationMap({ lat, lng }: MapParams) {
   if (loadError) return <p>Error loading the map</p>
 
   return (
-    <div className="flex justify-center m-auto">
+    <div className="m-auto flex justify-center">
       {isLoaded && (
         <GoogleMap
           mapContainerStyle={containerStyle}

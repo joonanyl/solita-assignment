@@ -1,12 +1,14 @@
 "use client"
 
 import { useState } from "react"
+import { redirect } from "next/navigation"
 
 export default function CreatePage() {
   const [id, setId] = useState("")
   const [name, setName] = useState("")
   const [address, setAddress] = useState("")
   const [city, setCity] = useState("")
+  const [error, setError] = useState("")
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -23,63 +25,62 @@ export default function CreatePage() {
 
     if (!response.ok) {
       const errorData = await response.json()
-      console.log(errorData)
-      return
+      setError(errorData)
     }
 
-    const data = await response.json()
-    console.log(data)
+    redirect("/stations")
   }
 
   return (
-    <div className="xl:mx-28 mx-12 my-6 ">
+    <div className="mx-12 my-6 xl:mx-28 ">
+      {error && <h2>{error}</h2>}
       <form
         onSubmit={handleSubmit}
-        className="p-6 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+        className="rounded-lg border border-gray-200 p-6 shadow dark:border-gray-700 dark:bg-gray-800"
       >
-        <h1 className="font-bold text-2xl text-center my-4">
+        <h1 className="my-4 text-center text-2xl font-bold">
           Create a new station
         </h1>
         <div className="mb-6">
-          <label className="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+          <label className="text-md mb-2 block font-medium text-gray-900 dark:text-white">
             ID
             <input
               type="text"
               id="id"
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              className="text-md dark:shadow-sm-light block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               value={id}
               onChange={(e) => setId((e.target as HTMLInputElement).value)}
               required
             />
           </label>
-          <label className="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+          <label className="text-md mb-2 block font-medium text-gray-900 dark:text-white">
             Name
             <input
               type="text"
               id="name"
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              className="text-md dark:shadow-sm-light block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               value={name}
               onChange={(e) => setName((e.target as HTMLInputElement).value)}
               required
             />
           </label>
-          <label className="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+          <label className="text-md mb-2 block font-medium text-gray-900 dark:text-white">
             Address
             <input
               type="text"
               id="address"
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              className="text-md dark:shadow-sm-light block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               value={address}
               onChange={(e) => setAddress((e.target as HTMLInputElement).value)}
               required
             />
           </label>
-          <label className="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+          <label className="text-md mb-2 block font-medium text-gray-900 dark:text-white">
             City
             <input
               type="text"
               id="city"
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              className="text-md dark:shadow-sm-light block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               value={city}
               onChange={(e) => setCity((e.target as HTMLInputElement).value)}
               required
@@ -88,7 +89,7 @@ export default function CreatePage() {
         </div>
         <button
           type="submit"
-          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+          className="mb-2 mr-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
         >
           Create
         </button>

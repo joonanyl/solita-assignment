@@ -14,11 +14,9 @@ export default async function handler(
       const db = client.db("solita")
 
       const response = db.collection("stations").insertOne(station)
-      console.log(response)
 
       res.status(201).json(station)
     } catch (error) {
-      console.log(error)
       res.status(400).json({
         message: "An error has occurred while trying to create a new station",
       })

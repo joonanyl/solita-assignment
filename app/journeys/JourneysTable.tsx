@@ -24,12 +24,12 @@ export default function JourneysTable({ journeys }: { journeys: Journey[] }) {
   })
 
   return (
-    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-2">
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <table className="mt-2 w-full text-left text-sm text-gray-500 dark:text-gray-400">
+      <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
         <tr>
           <th
             scope="col"
-            className="px-6 py-3 cursor-pointer"
+            className="cursor-pointer px-6 py-3"
             onClick={() => handleSort("departureStationName")}
           >
             Departure station
@@ -41,7 +41,7 @@ export default function JourneysTable({ journeys }: { journeys: Journey[] }) {
           </th>
           <th
             scope="col"
-            className="px-6 py-3 cursor-pointer"
+            className="cursor-pointer px-6 py-3"
             onClick={() => handleSort("returnStationName")}
           >
             Return station
@@ -53,7 +53,7 @@ export default function JourneysTable({ journeys }: { journeys: Journey[] }) {
           </th>
           <th
             scope="col"
-            className="px-6 py-3 cursor-pointer"
+            className="cursor-pointer px-6 py-3"
             onClick={() => handleSort("coveredDistance")}
           >
             Covered distance (km)
@@ -65,7 +65,7 @@ export default function JourneysTable({ journeys }: { journeys: Journey[] }) {
           </th>
           <th
             scope="col"
-            className="px-6 py-3 cursor-pointer"
+            className="cursor-pointer px-6 py-3"
             onClick={() => handleSort("duration")}
           >
             Duration (min)
@@ -80,7 +80,7 @@ export default function JourneysTable({ journeys }: { journeys: Journey[] }) {
       <tbody>
         {sortedJourneys.map((journey) => (
           <tr
-            className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+            className="border-b bg-white dark:border-gray-700 dark:bg-gray-900"
             key={journey._id}
           >
             <td className="px-6 py-4">{journey.departureStationName}</td>

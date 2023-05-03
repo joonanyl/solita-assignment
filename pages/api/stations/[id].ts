@@ -15,8 +15,6 @@ export default async function handler(
     try {
       const { id, month } = req.query as QueryStrings
 
-      console.log(month)
-
       if (id) {
         const client = await clientPromise
         const db = client.db("solita")
@@ -33,8 +31,6 @@ export default async function handler(
             }
           }
         }
-
-        console.log(query)
 
         const station = await db
           .collection("stations")
@@ -68,7 +64,6 @@ export default async function handler(
         res.status(400).json({ message: "Id is missing!" })
       }
     } catch (error) {
-      console.log(error)
       res
         .status(400)
         .json({ message: "An error has occurred while fetching the stations" })
