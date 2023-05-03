@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import Spinner from "@/components/spinner"
 
 import SearchBar from "../journeys/SearchBar"
+import { Station } from "../types/station"
 import StationsTable from "./StationsTable"
 
 type QueryResult = {

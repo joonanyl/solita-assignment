@@ -1,5 +1,7 @@
 import { useState } from "react"
 
+import { Journey } from "../types/journey"
+
 export default function JourneysTable({ journeys }: { journeys: Journey[] }) {
   const [sortColumn, setSortColumn] = useState<string | null>(null)
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")

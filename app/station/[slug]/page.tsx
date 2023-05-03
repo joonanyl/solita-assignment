@@ -5,6 +5,8 @@ import Link from "next/link"
 import useSWR from "swr"
 
 import Spinner from "@/components/spinner"
+import { Journey } from "@/app/types/journey"
+import { Station } from "@/app/types/station"
 
 import Map from "./Map"
 

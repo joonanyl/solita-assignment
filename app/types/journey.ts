@@ -1,4 +1,4 @@
-type Journey = {
+export type Journey = {
   _id: string
   coveredDistance: number
   departure: string

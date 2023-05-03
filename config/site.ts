@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Solita pre-assignment",
+  name: "Citybikes",
   mainNav: [
     {
       title: "Journeys",

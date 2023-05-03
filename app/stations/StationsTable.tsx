@@ -1,5 +1,7 @@
 import Link from "next/link"
 
+import { Station } from "../types/station"
+
 export default function StationsTable({ stations }: { stations: Station[] }) {
   return (
     <table className="mt-2 w-full text-left text-sm text-gray-500 dark:text-gray-400">

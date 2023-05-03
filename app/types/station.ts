@@ -1,4 +1,4 @@
-type Station = {
+export type Station = {
   _id: string
   fid: number
   id: number
