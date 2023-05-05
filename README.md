@@ -50,7 +50,7 @@ The application has following features:
 - Clone repository in terminal and open it
 - Run `npm install` to install dependencies
 - Run `npm run dev` to start the application in development mode (so you don't need to build the app)
-- process.env?
+- Email me for environment variables
 
 ## E2E testing
 
