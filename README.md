@@ -67,4 +67,4 @@ For data validation, I chose to use Python because at the start of the year I ha
 
 For the web application, I used Next.js 13 with TypeScript because I have just done a project using Next.js for my friends competing in a business idea competition. I like developing with Next.js alot especially because of the server side rendering aspect.
 
-For data fetching, I was before this used to React Query and I had heard of Vercel's SWR, so I decided to just try it out for fun in this project. I also use the native fetch API where I create a form, because I had a problem using SWR's mutation.
+For data fetching, I was before this used to React Query and I had heard of Vercel's SWR, so I decided to just try it out for fun in this project.
