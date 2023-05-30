@@ -2,7 +2,7 @@
 
 ## Project description
 
-Purpose for this application was to create a web application for displaying citybike data. The application's database is hosted in mongoDB Atlas which's free tier had storage only for around half of the data, so the database is filled with 1.5m journeys and the stations data.
+Purpose for this application was to create a web application for displaying citybike data. The application's database is hosted in mongoDB Atlas which's free tier had storage only for around half of the data, so the database is filled with 1.5m journeys and the stations data. For the styles I used shadcn's Next.js 13 [template](https://github.com/shadcn/next-template) to get fonts and a light/dark mode set up quickly.
 
 The data is validated using Python [(notebook)](https://colab.research.google.com/drive/1W69s5jaew1L7bPouCLr2QHLOqxofv6P7#scrollTo=vaagiWcFLFcr) with the following requirements:
 
